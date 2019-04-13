@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  # Django
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: web
+    # From documentation:
+    # However, Compose does not wait until a container is “ready”
+    # (whatever that means for your particular application) - only until it’s
+    # running. There’s a good reason for this.
+    command: ["./entrypoint.sh"]
+    volumes:
+      # Mount src to app
+      - ./src:/app
+      # Mount entrypoint.sh to run in container
+      - ./entrypoint.sh:/app/entrypoint.sh
+    expose:
+      - "8080"
+
+  # MongoDB database
+
+  # Load Balancer
+  lb:
+    image: dockercloud/haproxy
+    # Recommended way is using networks instead of links
+    links:
+     - web
+    volumes:
+      # Mount unix socket for back communication (needs to be updated)
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+     - "8080:8080"
