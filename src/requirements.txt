@@ -59,7 +59,7 @@ pytest-django==3.4.3
 python-dateutil==2.7.5
 pytz==2018.7
 pywebhdfs==0.4.1
-PyYAML==3.13
+PyYAML==5.4
 regex==2018.1.10
 repoze.lru==0.7
 requests==2.20.0
